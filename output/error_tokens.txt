@@ -1,0 +1,48 @@
+Line		Lexeme			Token
+--------------------------------------------------------
+1		enroll			ENROLL
+2		{			{
+3		score			DT
+3		marks			ID
+3		=			=
+3		75			NUM
+3		;			;
+4		score			DT
+4		=			=
+4		50			NUM
+4		;			;
+5		print			PRINT
+5		(			(
+6		score			DT
+6		total			ID
+6		=			=
+6		;			;
+7		grade			DT
+7		result			ID
+7		=			=
+7		'A'			CHAR
+7		;			;
+8		check			CHECK
+8		(			(
+8		marks			ID
+8		>=			>=
+8		50			NUM
+8		)			)
+9		{			{
+10		print			PRINT
+10		(			(
+10		"Pass"			STRING
+10		)			)
+10		;			;
+11		}			}
+
+======================================================================================================================
+                                            LEXICAL ERRORS (CATEGORY-WISE)                                            
+======================================================================================================================
+Category		Lexeme		Line	Description
+----------------------------------------------------------------------------------------------------------------------
+Illegal Character		@		3	Illegal Character '@'
+Invalid Identifier		1marks		4	Invalid Identifier '1marks': identifiers cannot start with numbers/signs
+Unterminated String		"Hello bhai);		5	Unterminated String: missing closing double quote (") before newline
+Exceeding Limit		50000		6	Numeric Constant '50000' exceeds 2-byte limit (-32768 to 32767)
+Unclosed Comment		/*...		13	Unclosed Comment: missing closing '*/'

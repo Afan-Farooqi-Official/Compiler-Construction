@@ -1,0 +1,15 @@
+enroll
+{
+ score @score = 100;
+ score 1student = 50;
+ score total$ = 150;
+ grade letter = 'ABC';
+ grade empty = '';
+ grade unclosed = 'A;
+ string msg = "Unterminated string message;
+ check(marks & 50 | 10)
+ {
+   score this_is_an_extremely_long_identifier_name_that_exceeds_the_limit = 999999999999999;
+ }
+}
+graduate

@@ -1,0 +1,15 @@
+enroll
+{
+ fixed score max_score = +100;
+ score offset = -20;
+ score current = 10 + 20 * 3 / 2 % 5;
+ repeat
+ {
+   input(marks);
+   check(marks <= max_score && marks != 0 || !result)
+   {
+     print("Passed with score: ");
+   }
+ }
+}
+graduate
