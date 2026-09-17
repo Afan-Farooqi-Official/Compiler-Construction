@@ -66,6 +66,27 @@ std::vector<Token> Lexer::tokenize() {
             break;
         }
     }
+
+    // Check program boundaries: start with enroll, end with graduate
+    if (tokens.empty() || tokens.front().type == TokenType::END_OF_FILE || tokens.front().type != TokenType::ENROLL) {
+        int errLine = tokens.empty() ? 1 : tokens.front().line;
+        std::string lex = (tokens.empty() || tokens.front().type == TokenType::END_OF_FILE) ? "-" : tokens.front().lexeme;
+        recordError(ErrorCategory::PROGRAM_STRUCTURE, "Program Structure", lex, "Program must start with 'enroll' keyword", errLine);
+    }
+
+    Token lastToken{TokenType::END_OF_FILE, "", 1};
+    if (tokens.size() >= 2) {
+        lastToken = tokens[tokens.size() - 2];
+    } else if (tokens.size() == 1 && tokens.front().type != TokenType::END_OF_FILE) {
+        lastToken = tokens.front();
+    }
+
+    if (lastToken.type != TokenType::GRADUATE) {
+        int errLine = lastToken.line;
+        std::string lex = lastToken.lexeme.empty() ? "-" : lastToken.lexeme;
+        recordError(ErrorCategory::PROGRAM_STRUCTURE, "Program Structure", lex, "Program must end with 'graduate' keyword", errLine);
+    }
+
     return tokens;
 }
 

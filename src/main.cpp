@@ -760,11 +760,36 @@ public:
     }
 
     // ==================================================
+    // PROGRAM BOUNDARY CHECK (enroll ... graduate)
+    // ==================================================
+    void checkProgramBoundaries()
+    {
+        // 1. Program must only start with 'enroll'
+        if (tokens.empty() || tokens.front().type != "ENROLL")
+        {
+            int errLine = tokens.empty() ? 1 : tokens.front().line;
+            string lex = tokens.empty() ? "-" : tokens.front().lexeme;
+            error("Program Structure", lex,
+                  "Program must start with 'enroll' keyword", errLine);
+        }
+
+        // 2. Program must always end with 'graduate'
+        if (tokens.empty() || tokens.back().type != "GRADUATE")
+        {
+            int errLine = tokens.empty() ? (line > 1 ? line - 1 : 1) : tokens.back().line;
+            string lex = tokens.empty() ? "-" : tokens.back().lexeme;
+            error("Program Structure", lex,
+                  "Program must end with 'graduate' keyword", errLine);
+        }
+    }
+
+    // ==================================================
     // TOKENIZE
     // ==================================================
     void tokenize()
     {
         masterDFA();
+        checkProgramBoundaries();
     }
 
     // ==================================================
@@ -898,6 +923,7 @@ void runInteractiveInputMode()
 {
     cout << "\n-----------------------------------------------------------------\n";
     cout << " Enter EduLang code line by line.\n";
+    cout << " Note: Program must start with 'enroll' and end with 'graduate'.\n";
     cout << " Type 'END' on a new line or end with 'graduate' to finish input.\n";
     cout << "-----------------------------------------------------------------\n";
 
@@ -907,13 +933,20 @@ void runInteractiveInputMode()
     while (true)
     {
         if (!getline(cin, line)) break;
-        if (line == "END") break;
+        if (line == "END" || line == "end") break;
 
         sourceCode += line + "\n";
 
-        if (line.find("graduate") != string::npos)
+        // Check if user entered 'graduate' to finish input
+        size_t first = line.find_first_not_of(" \t\r\n");
+        size_t last = line.find_last_not_of(" \t\r\n");
+        if (first != string::npos)
         {
-            break;
+            string trimmed = line.substr(first, last - first + 1);
+            if (trimmed == "graduate" || (trimmed.length() >= 8 && trimmed.rfind("graduate") == trimmed.length() - 8))
+            {
+                break;
+            }
         }
     }
 

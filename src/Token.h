@@ -59,7 +59,8 @@ enum class ErrorCategory {
     INVALID_CHARACTER,
     UNTERMINATED_ERROR,
     UNCLOSED_ERROR,
-    EXCEEDING_LIMIT
+    EXCEEDING_LIMIT,
+    PROGRAM_STRUCTURE
 };
 
 struct LexicalError {
